@@ -188,4 +188,12 @@ public class AIController : MonoBehaviour
         return null;
     }
 
+
+    public void StopAI()
+    {
+        startRow = -1;
+        startCol = -1;
+        Destroy(monster);
+    }
+
 }
