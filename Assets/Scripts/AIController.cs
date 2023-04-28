@@ -1,40 +1,36 @@
+/* Program name: Maze-generation
+Project file name: AIController.cs
+Author: Nigel Maynard
+Date: 22/4/23
+Language: C#
+Platform: Unity/ VS Code
+Purpose: Assessment
+Description: This contains the logic for the AI, e.g: how the enemy decides what path to take on its way to find you and for stopping
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AIController : MonoBehaviour
 {
-    private const int MOVE_STRAIGHT_COST = 10;
-    private const int MOVE_DIAGONAL_COST = 140;
+    private const int MOVE_STRAIGHT_COST = 10, MOVE_DIAGONAL_COST = 140;
 
     private Node[,] graph;
-    public Node[,] Graph 
-    {
-        get { return graph; }
-        set { graph = value; }
-    }
+    public Node[,] Graph { get { return graph; } set { graph = value; } }
 
     private GameObject monster;
-    public GameObject Monster 
-    {
-        get { return monster; }
-        set { monster = value; }       
-    }
+    public GameObject Monster { get { return monster; } set { monster = value; } }
+
     private GameObject player;
-    public GameObject Player
-    {
-        get { return player; }
-        set { player = value; } 
-    }
+    public GameObject Player{ get { return player; } set { player = value; } }
+
     private float hallWidth;
-    public float HallWidth 
-    {
-        get { return hallWidth; }
-        set { hallWidth = value; }
-    }
+    public float HallWidth { get { return hallWidth; } set { hallWidth = value; } }
+
     [SerializeField] private float monsterSpeed;
-    private int startRow = -1;
-    private int startCol = -1;
+    private int startRow = -1, startCol = -1;
+
 
     public void StartAI()
     {
@@ -42,35 +38,38 @@ public class AIController : MonoBehaviour
         startCol = graph.GetUpperBound(1) - 1;            
     }
 
+
     // Update is called once per frame
     void Update()
-        {
-            if(startRow != -1 && startCol != -1)
-            {            
-                int playerCol = (int)Mathf.Round(player.transform.position.x / hallWidth);
-                int playerRow = (int)Mathf.Round(player.transform.position.z / hallWidth);
+    {
+        if(startRow != -1 && startCol != -1)
+        {            
+            int playerCol = (int)Mathf.Round(player.transform.position.x / hallWidth);
+            int playerRow = (int)Mathf.Round(player.transform.position.z / hallWidth);
                 
-                List<Node> path = FindPath(startRow, startCol, playerRow, playerCol);
+            List<Node> path = FindPath(startRow, startCol, playerRow, playerCol);
 
-                if(path != null && path.Count > 1)
+            if(path != null && path.Count > 1)
+            {
+                Node nextNode = path[1];
+                float nextX = nextNode.y * hallWidth;
+                float nextZ = nextNode.x * hallWidth;
+                float step =  monsterSpeed * Time.deltaTime;
+                Vector3 endPosition = new Vector3(nextX, 0f, nextZ);
+                    
+                monster.transform.position = Vector3.MoveTowards(monster.transform.position, endPosition, step);
+                Vector3 targetDirection = endPosition - monster.transform.position;
+                Vector3 newDirection = Vector3.RotateTowards(monster.transform.forward, targetDirection, step, 0.0f);
+                monster.transform.rotation = Quaternion.LookRotation(newDirection);
+                if(monster.transform.position == endPosition)
                 {
-                    Node nextNode = path[1];
-                    float nextX = nextNode.y * hallWidth;
-                    float nextZ = nextNode.x * hallWidth;
-                    Vector3 endPosition = new Vector3(nextX, 0f, nextZ);
-                    float step =  monsterSpeed * Time.deltaTime;
-                    monster.transform.position = Vector3.MoveTowards(monster.transform.position, endPosition, step);
-                    Vector3 targetDirection = endPosition - monster.transform.position;
-                    Vector3 newDirection = Vector3.RotateTowards(monster.transform.forward, targetDirection, step, 0.0f);
-                    monster.transform.rotation = Quaternion.LookRotation(newDirection);
-                    if(monster.transform.position == endPosition)
-                    {
-                        startRow = nextNode.x;
-                        startCol = nextNode.y;
-                    }
+                    startRow = nextNode.x;
+                    startCol = nextNode.y;
                 }
             }
         }
+    }
+
 
     private int CalculateDistanceCost(Node a, Node b){
         int xDistance = Mathf.Abs(a.x - b.x);
@@ -78,6 +77,7 @@ public class AIController : MonoBehaviour
         int remaining = xDistance - yDistance;
         return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining;
     }
+
 
     private Node GetLowestFCostNode(List<Node> pathNodeList){
         Node lowestFCostNode = pathNodeList[0];
@@ -88,6 +88,7 @@ public class AIController : MonoBehaviour
                     
         return lowestFCostNode;
     }
+
 
     private List<Node> GetNeighbourList(Node currentNode){
         List<Node> neighbourList = new List<Node>();
@@ -114,6 +115,7 @@ public class AIController : MonoBehaviour
         return neighbourList;
     }
 
+
     private List<Node> CalculatePath(Node endNode)
     {
         List<Node> path = new List<Node>();
@@ -127,6 +129,7 @@ public class AIController : MonoBehaviour
         path.Reverse();
         return path;
     }
+
 
     public List<Node> FindPath(int startX, int startY, int endX, int endY)
     {
@@ -178,12 +181,10 @@ public class AIController : MonoBehaviour
                     neighbourNode.hCost = CalculateDistanceCost(neighbourNode, endNode);  
                     neighbourNode.CalculateFCost();                  
 
-                    if(!openList.Contains(neighbourNode))
-                        openList.Add(neighbourNode);
+                    if(!openList.Contains(neighbourNode)) openList.Add(neighbourNode);
                 }
             }
         }
-
         //out of nodes on the open list
         return null;
     }
@@ -195,5 +196,4 @@ public class AIController : MonoBehaviour
         startCol = -1;
         Destroy(monster);
     }
-
 }
