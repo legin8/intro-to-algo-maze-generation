@@ -1,3 +1,12 @@
+/* Program name: Maze-generation
+Project file name: MazeConstructor.cs
+Author: Nigel Maynard
+Date: 3/5/23
+Language: C#
+Platform: Unity/ VS Code
+Purpose: Assessment
+Description: This contains the logic for creating a new maze, getting rid of a maze and placing a goal/ treasure
+*/
 using UnityEngine;
 
 public class MazeConstructor : MonoBehaviour
@@ -9,10 +18,7 @@ public class MazeConstructor : MonoBehaviour
     [SerializeField] private Material startMat;
     [SerializeField] private Material treasureMat;
 
-    public int[,] data
-    {
-        get; private set;
-    }
+    public int[,] data{ get; private set; }
 
     public float placementThreshold = 0.1f;   // chance of empty space
     private MazeMeshGenerator meshGenerator;
@@ -125,9 +131,7 @@ public class MazeConstructor : MonoBehaviour
     public void DisposeOldMaze()
     {
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Generated");
-        foreach (GameObject go in objects) {
-            Destroy(go);
-        }
+        foreach (GameObject go in objects) Destroy(go);
     }
 
 

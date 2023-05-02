@@ -167,14 +167,14 @@ public class AIController : MonoBehaviour
             closedList.Add(currentNode);
 
             foreach(Node neighbourNode in GetNeighbourList(currentNode)){
-                if(closedList.Contains(neighbourNode)) continue;
+                int tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbourNode);
 
+                if(closedList.Contains(neighbourNode)) continue;
                 if(!neighbourNode.isWalkable){
                     closedList.Add(neighbourNode);
                     continue;
                 }
 
-                int tentativeGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbourNode);
                 if(tentativeGCost < neighbourNode.gCost){
                     neighbourNode.cameFromNode = currentNode;
                     neighbourNode.gCost = tentativeGCost;

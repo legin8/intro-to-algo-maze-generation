@@ -1,3 +1,12 @@
+/* Program name: Maze-generation
+Project file name: GameController.cs
+Author: Nigel Maynard
+Date: 3/5/23
+Language: C#
+Platform: Unity/ VS Code
+Purpose: Assessment
+Description: This contains the logic for creating the player, monster and saying when you win
+*/
 using System;
 using UnityEngine;
 
@@ -8,8 +17,7 @@ public class GameController : MonoBehaviour
     private MazeConstructor constructor;
     [SerializeField] private int rows;
     [SerializeField] private int cols;
-    public GameObject playerPrefab;
-    public GameObject monsterPrefab;
+    public GameObject playerPrefab, monsterPrefab;
 
     private AIController aIController;
 
@@ -54,5 +62,4 @@ public class GameController : MonoBehaviour
         Debug.Log("You Won!");
         aIController.StopAI();
     }
-
 }
