@@ -1,11 +1,19 @@
+/* Program name: Maze-generation
+Project file name: MazeMeshGenerator.cs
+Author: Nigel Maynard
+Date: 3/5/23
+Language: C#
+Platform: Unity/ VS Code
+Purpose: Assessment
+Description: This contains the logic for creating the mesh that makes the walls
+*/
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeMeshGenerator
 {    
-    // generator params
-    public float width;     // how wide are hallways
-    public float height;    // how tall are hallways
+    // generator params, how wide and tall hallways are
+    public float width, height;
 
     public MazeMeshGenerator()
     {
