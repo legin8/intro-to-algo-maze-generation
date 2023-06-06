@@ -15,12 +15,16 @@ public class MazeMeshGenerator
     // generator params, how wide and tall hallways are
     public float width, height;
 
+
+    // This sets the size of the mesh
     public MazeMeshGenerator()
     {
         width = 3.75f;
         height = 3.5f;
     }
 
+
+    // This forms the mesh into the maze shape
     public Mesh FromData(int[,] data)
     {
         Mesh maze = new Mesh();

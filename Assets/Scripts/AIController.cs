@@ -130,7 +130,7 @@ public class AIController : MonoBehaviour
         return path;
     }
 
-
+    
     public List<Node> FindPath(int startX, int startY, int endX, int endY)
     {
         Node startNode = graph[startX,startY];
@@ -190,6 +190,7 @@ public class AIController : MonoBehaviour
     }
 
 
+    // This Gets rid of the monster
     public void StopAI()
     {
         startRow = -1;

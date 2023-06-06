@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour
     }
 
 
+    // This creates the player
     private GameObject CreatePlayer()
     {
         Vector3 playerStartPosition = new Vector3(constructor.hallWidth, 1, constructor.hallWidth);  
@@ -48,6 +49,7 @@ public class GameController : MonoBehaviour
     }
 
 
+    // This creates the monster
     private GameObject CreateMonster()
     {
         Vector3 monsterPosition = new Vector3(constructor.goalCol * constructor.hallWidth, 0f, constructor.goalRow * constructor.hallWidth);
@@ -56,7 +58,8 @@ public class GameController : MonoBehaviour
         return monster;
     }
 
-
+    
+    // This Triggers on you reaching the goal
     private void OnTreasureTrigger(GameObject trigger, GameObject other)
     { 
         Debug.Log("You Won!");

@@ -42,6 +42,8 @@ public class MazeConstructor : MonoBehaviour
         };
     }
 
+
+    // This makes the new maze for you.
     public void GenerateNewMaze(int sizeRows, int sizeCols, TriggerEventHandler treasureCallback)
     {
         DisposeOldMaze();
@@ -91,6 +93,8 @@ public class MazeConstructor : MonoBehaviour
         return maze;
     }
 
+
+    // This is the debug map that is on the screen
     void OnGUI()
     {
         if (!showDebug) return;
@@ -110,6 +114,8 @@ public class MazeConstructor : MonoBehaviour
         GUI.Label(new Rect(20, 20, 500, 500), msg);
     }
 
+
+    // This puts the maze on the screen for you to see it.
     private void DisplayMaze()
     {
         GameObject go = new GameObject();
@@ -128,6 +134,7 @@ public class MazeConstructor : MonoBehaviour
     }
 
 
+    // This gets rid of the maze once it isn't needed anymore.
     public void DisposeOldMaze()
     {
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Generated");
@@ -135,6 +142,7 @@ public class MazeConstructor : MonoBehaviour
     }
 
 
+    // This sets the Treasure for you to find.
     private void PlaceGoal(TriggerEventHandler treasureCallback)
     {            
         GameObject treasure = GameObject.CreatePrimitive(PrimitiveType.Cube);
